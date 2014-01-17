@@ -1,3 +1,3 @@
 #!/bin/bash
 python virtualenv.py flask
-flask/pip install -r requirements.txt
+flask/bin/pip install -r requirements.txt
