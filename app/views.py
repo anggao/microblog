@@ -4,11 +4,13 @@ from flask.ext.login import login_user, logout_user, current_user,login_required
 from app import app, db, lm, oid
 from forms import LoginForm, EditForm, PostForm
 from models import User, ROLE_ADMIN, ROLE_USER, Post
+from config import POSTS_PER_PAGE
 
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/index', methods = ['GET', 'POST'])
+@app.route('/index/<int:page>', methods = ['GET', 'POST'])
 @login_required
-def index():
+def index(page = 1):
 #    user = {'nickname': 'Ang'} # fake user
     form = PostForm()
     if form.validate_on_submit():
@@ -18,16 +20,18 @@ def index():
         db.session.commit()
         flash('Your post is now live!')
         return redirect(url_for('index'))
-    posts = [ # fake array of posts
-              {
-                'author' : {'nickname' : 'Ang'},   
-                'body' : 'Beautiful day in Ireland!'
-              }, 
-              {
-                'author' : {'nickname' : 'Gao'},   
-                'body' : 'Hacking a blog'
-              } 
-            ]
+#    posts = g.user.followed_posts().all()
+    posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False)
+#    posts = [ # fake array of posts
+#              {
+#                'author' : {'nickname' : 'Ang'},   
+#                'body' : 'Beautiful day in Ireland!'
+#              }, 
+#              {
+#                'author' : {'nickname' : 'Gao'},   
+#                'body' : 'Hacking a blog'
+#              } 
+#            ]
     return render_template('index.html', 
             title = 'Home', 
             form = form,
