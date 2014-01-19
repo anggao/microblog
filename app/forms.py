@@ -26,4 +26,5 @@ class EditForm(Form):
             return False
         return True
 
-
+class PostForm(Form):
+    post = TextAreaField('post', validators = [Required()])
