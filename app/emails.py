@@ -1,12 +1,13 @@
 from flask import render_template
 from flask.ext.mail import Message
-from app import mail
+from app import mail, app
 from config import ADMINS
 from decorators import async
 
 @async
 def send_async_email(msg):
-    mail.send(msg)
+    with app.app_context():
+        mail.send(msg)
 
 def send_mail(subject, sender, recipients, text_body, html_body):
     msg = Message(subject, sender = sender, recipients = recipients)
