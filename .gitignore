@@ -1,3 +1,4 @@
 *.pyc
 flask/*
 tmp/*
+search.db/Post/*

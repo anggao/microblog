@@ -14,20 +14,32 @@
     form.elements['openid'].value = openid
   }
 </script>
-<h1>Sign In</h1>
-<form action="" method="POST" name="login">
-  {{form.hidden_tag()}}
-  <p>
-    Please enter your OpenID:<br>
-    {{form.openid(dize=80)}}<br>
-    {% for error in form.errors.openid %}
-    <span style="color: red;">{{error}}</span>
-    {% endfor %}
+
+{% include 'flash.html' %}
+<div class="well">
+  <h3>Sign In</h3>
+  <form action="" method="POST" name="login" class="form">
+    {{form.hidden_tag()}}
+    <div class="help-block">Click on your OpenID provider below:</div>
     {% for pr in providers %}
     <a href="javascript:set_openid('{{pr.url}}', '{{pr.name}}');">{{pr.name}}</a> |
     {% endfor %}
-  </p>
-  <p>{{form.remember_me}} Remember Me</p>
-  <p><input type="submit" value="Sign In"></p>
-</form>
+
+    <div class="form-group">
+      {{form.openid(size = 80, class="span4")}}
+      {% for error in form.errors.openid %}
+         <span class="help-block">[{{error}}]</span><br>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      <label class="checkbox" for="remember_me">
+        {{ form.remember_me }} Remember Me
+      </label>
+    </div>
+    <div class="form-group">
+      <input class="btn btn-primary" type="submit" value="Sign In">
+    </div>
+  </form>
+</div>
 {% endblock %}
