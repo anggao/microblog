@@ -1,6 +1,7 @@
 from app import db, app
 from hashlib import md5
 import flask.ext.whooshalchemy as whooshalchemy
+import re
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
@@ -25,6 +26,9 @@ class User(db.Model):
             backref = db.backref('followers', lazy='dynamic'),
             lazy = 'dynamic'
             )
+    @staticmethod
+    def make_valid_nickname(nickname):
+        return re.sub('[^a-zA-Z0-9_\.]', '', nickname)
 
     def __repr__(self):
         return '<User %r>' % (self.nickname)

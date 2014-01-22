@@ -2,7 +2,7 @@
   <tr valign="top">
     <td><img src="{{post.author.avatar(50)}}" class="img-circle"></td>
     <td><a href="{{url_for('user', nickname=post.author.nickname)}}"><i>{{post.author.nickname}}</i></a><br>
-      said {{momentjs(post.timestamp).fromnow()}}:
+      said {{momentjs(post.timestamp).fromNow()}}:
       {{post.body}}
     </td>
   </tr>
