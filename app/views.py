@@ -23,7 +23,6 @@ def index(page = 1):
         language = guessLanguage(form.post.data)
         if language == 'UNKNOWN' or len(language) > 5:
             language = ''
-        print 'GET LANGUAGE -- ', language
         post = Post(body = form.post.data, timestamp = datetime.utcnow(),
                 author= g.user, language = language)
         db.session.add(post)
@@ -100,6 +99,7 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
         g.search_form = SearchForm()
+    g.locale = get_locale()
 
 
 @app.route('/logout')
@@ -212,6 +212,4 @@ def translate():
         'text': microsoft_translate(
             request.form['text'],
             request.form['sourceLang'],
-            request.form['destLang']
-        )}
-    )
+            request.form['destLang']) })
