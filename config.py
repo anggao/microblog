@@ -43,3 +43,7 @@ LANGUAGES = {
 'en': 'English',        
 'zh': '中文'
 }
+
+# microsft translation service
+MS_TRANSLATOR_CLIENT_ID = "anggao" 
+MS_TRANSLATOR_CLIENT_SECRET = "44ZXrN3yLZyGwt5IQO9BtvdM4F37tfMC2k0a99EXb7Y=" 
