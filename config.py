@@ -47,3 +47,8 @@ LANGUAGES = {
 # microsft translation service
 MS_TRANSLATOR_CLIENT_ID = "anggao" 
 MS_TRANSLATOR_CLIENT_SECRET = "44ZXrN3yLZyGwt5IQO9BtvdM4F37tfMC2k0a99EXb7Y=" 
+
+SQLALCHEMY_RECORD_QUERIES = True
+
+# slow database query threshold (in seconds)
+DATABASE_QUERY_TIMEOUT = 0.5

@@ -3,12 +3,13 @@ from flask import render_template, flash, redirect, session, url_for, request
 from flask import g, jsonify
 from flask.ext.login import login_user, logout_user, current_user,login_required
 from flask.ext.babel import gettext
+from flask.ext.sqlalchemy import get_debug_queries
 from app import app, db, lm, oid
 from app import babel
 from forms import LoginForm, EditForm, PostForm, SearchForm
 from models import User, ROLE_ADMIN, ROLE_USER, Post
 from emails import follower_notification
-from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES
+from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES, DATABASE_QUERY_TIMEOUT
 from guess_language import guessLanguage
 from translate import microsoft_translate
 
@@ -228,3 +229,11 @@ def delete(id):
     db.session.commit()
     flash('Your post has been deleted.')
     return redirect(url_for('index'))
+
+
+@app.after_request
+def after_request(response):
+    for query in get_debug_queries():
+        if query.duration >= DATABASE_QUERY_TIMEOUT:
+            app.logger.warning("SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" % (query.statement, query.parameters, query.duration, query.context))
+    return response
