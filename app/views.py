@@ -10,6 +10,7 @@ from forms import LoginForm, EditForm, PostForm, SearchForm
 from models import User, ROLE_ADMIN, ROLE_USER, Post
 from emails import follower_notification
 from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES, DATABASE_QUERY_TIMEOUT
+from config import WHOOSH_ENABLED
 from guess_language import guessLanguage
 from translate import microsoft_translate
 
@@ -101,6 +102,7 @@ def before_request():
         db.session.commit()
         g.search_form = SearchForm()
     g.locale = get_locale()
+    g.search_enabled = WHOOSH_ENABLED
 
 
 @app.route('/logout')
